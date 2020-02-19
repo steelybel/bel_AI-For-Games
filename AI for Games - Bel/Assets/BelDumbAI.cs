@@ -25,6 +25,7 @@ public class BelDumbAI : MonoBehaviour
     private void AddForce(Vector3 f)
     {
         currentVelocity += f * Time.deltaTime;
+        currentVelocity = new Vector3(Mathf.Clamp(currentVelocity.x, -maxVelocity, maxVelocity), Mathf.Clamp(currentVelocity.y, -maxVelocity, maxVelocity), Mathf.Clamp(currentVelocity.z, -maxVelocity, maxVelocity));
     }
     void Seek(Transform chase)
     {

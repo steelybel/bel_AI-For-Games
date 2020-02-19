@@ -63,12 +63,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BelDumbAI.cs" />
+    <Compile Include="Assets\BelMouseNav.cs" />
     <Compile Include="Assets\Boid.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Editor">
+      <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+      <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -85,23 +95,14 @@
     <Reference Include="Unity.Rider.Editor">
       <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProBuilder.AddOns.Editor">
+      <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder">
-      <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Editor">
-      <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-      <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AddOns.Editor">
-      <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity 2019.3.0f6/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
