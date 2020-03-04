@@ -62,7 +62,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\BelDjikstra.cs" />
     <Compile Include="Assets\BelDumbAI.cs" />
+    <Compile Include="Assets\BelFiniteStates.cs" />
     <Compile Include="Assets\BelMouseNav.cs" />
     <Compile Include="Assets\BelTile.cs" />
     <Compile Include="Assets\BelTilemap.cs" />

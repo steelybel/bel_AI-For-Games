@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 3785200379031200559}
   - component: {fileID: 3785200379031200556}
   - component: {fileID: 3785200379031200557}
+  - component: {fileID: 4653175918654867058}
   m_Layer: 0
   m_Name: node
-  m_TagString: Untagged
+  m_TagString: Node
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,10 +46,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd40bc5b85ecb3840a9d495b65b35b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gScore: 1
+  weight: 1
   pos: {x: 0, y: 0}
   prevNode: {fileID: 0}
-  connections: []
+  up: {fileID: 0}
+  down: {fileID: 0}
+  right: {fileID: 0}
+  left: {fileID: 0}
 --- !u!33 &3785200379031200556
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -96,3 +100,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!135 &4653175918654867058
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3785200379031200544}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
