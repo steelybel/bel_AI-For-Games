@@ -60,11 +60,11 @@ public class BelDjikstra : MonoBehaviour
                         nodes[current.up].prevNode = temp;
                         nodes[current.up].gScore = tempScore;
                     }
-                    
+
                 }
                 connected.Add(nodes[current.up]);
             }
-            
+
         }
         if (current.down != null && !closedList.Contains(current.down))
         {
@@ -88,7 +88,7 @@ public class BelDjikstra : MonoBehaviour
                         nodes[current.down].prevNode = temp;
                         nodes[current.down].gScore = tempScore;
                     }
-                    
+
                 }
                 connected.Add(nodes[current.down]);
             }
@@ -115,7 +115,7 @@ public class BelDjikstra : MonoBehaviour
                         nodes[current.left].prevNode = temp;
                         nodes[current.left].gScore = tempScore;
                     }
-                    
+
                 }
                 connected.Add(nodes[current.left]);
             }
@@ -148,11 +148,17 @@ public class BelDjikstra : MonoBehaviour
             }
         }
         TileComp tc = new TileComp();
-        if (connected.Count > 0) { connected.Sort(0, connected.Count - 1, tc); }
-        connected.Reverse();
-        foreach (NodeData data in connected)
+        List<NodeData> updateOpen = new List<NodeData>();
+        updateOpen.AddRange(connected);
+        foreach (BelTile tile in openList)
         {
-            openList.Add(data.original);
+            updateOpen.Add(nodes[tile]);
+        }
+        updateOpen.Sort(0, updateOpen.Count, tc);
+        openList.Clear();
+        for(int a = 0; a < updateOpen.Count; a++)
+        {
+            openList.Add(updateOpen[a].original);
         }
         if (current.pos == goal)
         {
