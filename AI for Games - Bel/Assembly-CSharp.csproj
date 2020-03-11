@@ -65,10 +65,13 @@
     <Compile Include="Assets\BelDjikstra.cs" />
     <Compile Include="Assets\BelDumbAI.cs" />
     <Compile Include="Assets\BelFiniteStates.cs" />
+    <Compile Include="Assets\BelGuard.cs" />
     <Compile Include="Assets\BelMouseNav.cs" />
+    <Compile Include="Assets\BelThief.cs" />
     <Compile Include="Assets\BelTile.cs" />
     <Compile Include="Assets\BelTilemap.cs" />
     <Compile Include="Assets\Boid.cs" />
+    <Compile Include="Assets\NodeData.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>E:/Unity/AIE_AI-for-Games/AI for Games - Bel/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

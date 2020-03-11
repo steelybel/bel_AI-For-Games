@@ -10,6 +10,7 @@ public class BelTile : MonoBehaviour
     public BelTile prevNode = null;
     public BelTile up, down, right, left = null;
     // Start is called before the first frame update
+    public BelTilemap tilemap;
     void Awake()
     {
 
@@ -18,8 +19,8 @@ public class BelTile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Ray rayUp = new Ray(transform.position, Vector3.up);
-        Ray rayDown = new Ray(transform.position, Vector3.down);
+        Ray rayUp = new Ray(transform.position, (tilemap.sideways) ? Vector3.forward : Vector3.up);
+        Ray rayDown = new Ray(transform.position, (tilemap.sideways) ? Vector3.back : Vector3.down);
         Ray rayLeft = new Ray(transform.position, Vector3.left);
         Ray rayRight = new Ray(transform.position, Vector3.right);
         RaycastHit hit;
@@ -51,33 +52,5 @@ public class BelTile : MonoBehaviour
                 right = hit.collider.gameObject.GetComponent<BelTile>();
             }
         }
-    }
-    public void Report()
-    {
-        Debug.Log("The node above costs " + up.gScore());
-        Debug.Log("The node below costs " + down.gScore());
-        Debug.Log("The node left costs " + left.gScore());
-        Debug.Log("The node right costs " + right.gScore());
-    }
-    public float gScore()
-    {
-        if (prevNode != null)
-        {
-            float butt = prevNode.gScore() + weight;
-            return butt;
-        }
-        else
-        {
-            return 0;
-        }
-        
-    }
-    public float hScore()
-    {
-        return 0;
-    }
-    public float fScore()
-    {
-        return (gScore()+hScore());
     }
 }

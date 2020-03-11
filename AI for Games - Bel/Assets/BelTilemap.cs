@@ -9,15 +9,34 @@ public class BelTilemap : MonoBehaviour
     public int height = 10;
     public BelTile[,] nodes;
     private Vector2 look = Vector2.zero;
+    public bool sideways = false;
     // Start is called before the first frame update
     void Start()
+    {
+        Init(sideways);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    void Init(bool zAxis)
     {
         nodes = new BelTile[width, height];
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                nodes[x, y] = Instantiate(tileT, transform.position + new Vector3(x, y, 0) - new Vector3(width / 2, height / 2, 0), Quaternion.identity, transform);
+                if (zAxis)
+                {
+                    nodes[x, y] = Instantiate(tileT, transform.position + (new Vector3(x, 0, y) - new Vector3(width / 2, 0, height / 2)), Quaternion.identity, transform);
+                }
+                else
+                {
+                    nodes[x, y] = Instantiate(tileT, transform.position + (new Vector3(x, y, 0) - new Vector3(width / 2, height / 2, 0)), Quaternion.identity, transform);
+                }
+                nodes[x, y].tilemap = this;
                 nodes[x, y].pos = new Vector2(x, y);
                 nodes[x, y].weight = 1;
             }
@@ -33,11 +52,5 @@ public class BelTilemap : MonoBehaviour
         //    }
         //}
         nodes[0, 0].weight = 0;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

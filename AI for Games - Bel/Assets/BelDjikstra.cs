@@ -1,113 +1,143 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(BelTilemap))]
+//[RequireComponent(typeof(BelTilemap))]
 public class BelDjikstra : MonoBehaviour
 {
-    private BelTilemap map;
-    public Material blank;
-    public Material mark;
-    public Material path;
+    public BelTilemap map;
+    private Dictionary<BelTile, NodeData> nodes = new Dictionary<BelTile, NodeData>();
     public Vector2Int start = new Vector2Int(0, 0);
     public Vector2Int goal = new Vector2Int(1, 1);
     public List<BelTile> openList = new List<BelTile>();
     public List<BelTile> closedList = new List<BelTile>();
+    public List<BelTile> pathWay = new List<BelTile>();
+    public bool aStar = false;
+    public bool going = false;
+    public List<Vector2Int> routine = new List<Vector2Int>();
+    private int routeIter = 0;
     // Start is called before the first frame update
     void Start()
     {
-        map = GetComponent<BelTilemap>();
-        foreach (BelTile node in map.nodes)
-        {
-            node.GetComponent<MeshRenderer>().material = blank;
-        }
-        openList.Add(map.nodes[start.x,start.y]);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        while (!closedList.Contains(map.nodes[goal.x,goal.y]))
+
+    }
+    void Djikstra(BelTile current)
+    {
+        if (!nodes.ContainsKey(current)) { nodes.Add(current, new NodeData(current)); }
+        openList.Remove(current);
+        //MarkNode(current);
+        closedList.Add(current);
+        List<NodeData> connected = new List<NodeData>();
+        if (current.up != null && !closedList.Contains(current.up) && !openList.Contains(current.up))
+        {
+            NodeData upNode = new NodeData(current.up);
+            upNode.prevNode = nodes[current]; connected.Add(upNode);
+            upNode.gScore = nodes[current].gScore + upNode.weight;
+        }
+        if (current.down != null && !closedList.Contains(current.down) && !openList.Contains(current.down))
+        {
+            NodeData downNode = new NodeData(current.down);
+            downNode.prevNode = nodes[current]; connected.Add(downNode);
+            downNode.gScore = nodes[current].gScore + downNode.weight;
+        }
+        if (current.left != null && !closedList.Contains(current.left) && !openList.Contains(current.left))
+        {
+            NodeData leftNode = new NodeData(current.left);
+            leftNode.prevNode = nodes[current]; connected.Add(leftNode);
+            leftNode.gScore = nodes[current].gScore + leftNode.weight;
+        }
+        if (current.right != null && !closedList.Contains(current.right) && !openList.Contains(current.right))
+        {
+            NodeData rightNode = new NodeData(current.right);
+            rightNode.prevNode = nodes[current]; connected.Add(rightNode);
+            rightNode.gScore = nodes[current].gScore + rightNode.weight;
+        }
+        TileComp tc = new TileComp();
+        if (connected.Count > 0) { connected.Sort(0, connected.Count - 1, tc); }
+        connected.Reverse();
+        foreach(NodeData data in connected)
+        {
+            openList.Add(data.original);
+        }
+        if (current.pos == goal)
+        {
+            TraceBack(current);
+        }
+        Debug.Log("Finished");
+    }
+    void TraceBack(BelTile a)
+    {
+        NodeData track = nodes[a];
+        while (track.prevNode != null)
+        {
+            pathWay.Add(track.original);
+            //MarkNodeAlt(track);
+            track = track.prevNode;
+        }
+        pathWay.Add(map.nodes[start.x, start.y]);
+        pathWay.Reverse();
+    }
+    public void Search()
+    {
+        closedList.Clear();
+        openList.Clear();
+        nodes.Clear();
+        foreach (BelTile node in map.nodes)
+        {
+            //node.GetComponent<MeshRenderer>().material = blank;
+            //node.prevNode = null;
+        }
+        if (routine.Count > 0)
+        {
+            if (routeIter >= routine.Count)
+            {
+                routeIter = 0;
+            }
+            start = routine[routeIter];
+            goal = routine[(routeIter == routine.Count-1) ? 0 : routeIter + 1]; //on the final coordinate of the routine, go back to the first coordinate
+        }
+        openList.Add(map.nodes[start.x, start.y]);
+
+        Debug.Log("searching on route no. " + routeIter);
+        while (!gotGoal())
         {
             while (openList.Count > 0)
             {
                 Djikstra(openList[0]);
             }
         }
-        
-
+        if (routine.Count > 0) { routeIter++; }
+        return;
     }
-    bool Found()
+    public void Initialize()
     {
+        routeIter = 0;
+        closedList.Clear();
+        openList.Clear();
+    }
+    private bool gotGoal()
+    {
+        foreach (BelTile node in closedList)
+        {
+            if (node.pos == goal) return true;
+        }
         return false;
-        //BelTile g = map.nodes[(int)goal.x, (int)goal.y];
-        //if (current.up == g || current.down == g || current.left == g || current.right == g) { return true; }
-        //else { return false; }
-    }
-    void Djikstra(BelTile current)
-    {
-        openList.Remove(current);
-        MarkNode(current);
-        closedList.Add(current);
-        List<BelTile> connected = new List<BelTile>();
-        if (current.up != null && !closedList.Contains(current.up) && !openList.Contains(current.up)) { current.up.prevNode = current; connected.Add(current.up); }
-        if (current.down != null && !closedList.Contains(current.down) && !openList.Contains(current.down)) { current.down.prevNode = current; connected.Add(current.down); }
-        if (current.left != null && !closedList.Contains(current.left) && !openList.Contains(current.left)) { current.left.prevNode = current; connected.Add(current.left); }
-        if (current.right != null && !closedList.Contains(current.right) && !openList.Contains(current.right)) { current.right.prevNode = current; connected.Add(current.right); }
-        TileComp tc = new TileComp();
-        if (connected.Count > 0) { connected.Sort(0, connected.Count - 1, tc); }
-        connected.Reverse();
-        openList.AddRange(connected);
-        if (current == map.nodes[goal.x,goal.y])
-        {
-            TraceBack(current);
-        }
-    }
-    void AStar(BelTile current)
-    {
-        openList.Remove(current);
-        MarkNode(current);
-        closedList.Add(current);
-        List<BelTile> connected = new List<BelTile>();
-        if (current.up != null && !closedList.Contains(current.up) && !openList.Contains(current.up)) { current.up.prevNode = current; connected.Add(current.up); }
-        if (current.down != null && !closedList.Contains(current.down) && !openList.Contains(current.down)) { current.down.prevNode = current; connected.Add(current.down); }
-        if (current.left != null && !closedList.Contains(current.left) && !openList.Contains(current.left)) { current.left.prevNode = current; connected.Add(current.left); }
-        if (current.right != null && !closedList.Contains(current.right) && !openList.Contains(current.right)) { current.right.prevNode = current; connected.Add(current.right); }
-        TileComp tc = new TileComp();
-        if (connected.Count > 0) { connected.Sort(0, connected.Count - 1, tc); }
-        connected.Reverse();
-        openList.AddRange(connected);
-        if (current == map.nodes[goal.x, goal.y])
-        {
-            TraceBack(current);
-        }
-    }
-    void MarkNode(BelTile t)
-    {
-        t.GetComponent<MeshRenderer>().material = mark;
-    }
-    void MarkNodeAlt(BelTile t)
-    {
-        t.GetComponent<MeshRenderer>().material = path;
-    }
-    void TraceBack(BelTile a)
-    {
-        BelTile track = a;
-        while (track.prevNode != null)
-        {
-            MarkNodeAlt(track);
-            track = track.prevNode;
-        }
     }
 }
 
-public class TileComp : IComparer<BelTile>
+public class TileComp : IComparer<NodeData>
 {
     // Compares by Height, Length, and Width.
-    public int Compare(BelTile x, BelTile y)
+    public int Compare(NodeData x, NodeData y)
     {
-        if (x.gScore().CompareTo(y.gScore()) != 0)
+        if (x.gScore.CompareTo(y.gScore) != 0)
         {
-            return x.gScore().CompareTo(y.gScore());
+            return x.gScore.CompareTo(y.gScore);
         }
         else
         {

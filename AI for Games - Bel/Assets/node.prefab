@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3785200379031200556}
   - component: {fileID: 3785200379031200557}
   - component: {fileID: 4653175918654867058}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: node
   m_TagString: Node
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3785200379031200544}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -53,6 +53,7 @@ MonoBehaviour:
   down: {fileID: 0}
   right: {fileID: 0}
   left: {fileID: 0}
+  tilemap: {fileID: 0}
 --- !u!33 &3785200379031200556
 MeshFilter:
   m_ObjectHideFlags: 0

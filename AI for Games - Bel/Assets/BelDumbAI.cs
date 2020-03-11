@@ -19,8 +19,7 @@ public class BelDumbAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Wander();
-        //Seek(chasing);
+
     }
     private void AddForce(Vector3 f)
     {
