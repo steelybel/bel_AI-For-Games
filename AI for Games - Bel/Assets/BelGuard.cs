@@ -27,6 +27,14 @@ public class BelGuard : MonoBehaviour
     }
     public void DjikstraChase()
     {
+        if (djikstra.pathWay.Count > 0)
+        {
+            for (int a = 0; a < djikstra.pathWay.Count - 1; a++)
+            {
+                Debug.DrawLine(djikstra.pathWay[a].transform.position, djikstra.pathWay[a + 1].transform.position, Color.cyan);
+            }
+        }
+        
         if (!chasing)
         {
             Debug.Log("Initiating search");
@@ -39,13 +47,13 @@ public class BelGuard : MonoBehaviour
         }
         else
         {
-            if (nav.remainingDistance <= 0.1f)
+            if (nav.remainingDistance <= 0.5f)
             {
                 Debug.Log("Yee haw!");
                 if (djikstra.pathWay.Count > 0)
                 {
                     djikstra.pathWay.RemoveAt(0);
-                    if (djikstra.pathWay.Count > 0)
+                    if (djikstra.pathWay.Count > 0) // if it's STILL greater than 0 after removal
                     {
                         Vector3 nodePos = djikstra.pathWay[0].transform.position;
                         Vector3 betterPos = new Vector3(nodePos.x, transform.position.y, nodePos.z);

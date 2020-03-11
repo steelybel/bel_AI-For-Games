@@ -59,7 +59,7 @@ public class BelFiniteStates : MonoBehaviour
 	{
         goMethods.Invoke();
     }
-    void ChangeState(States newState)
+    public void ChangeState(States newState)
     {
         currentState = newState;
     }

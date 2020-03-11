@@ -372,8 +372,8 @@ MonoBehaviour:
   resetMethods:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 42241104}
-        m_MethodName: Clear
+      - m_Target: {fileID: 42241101}
+        m_MethodName: Initialize
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -911,8 +911,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434211795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 1.5, z: -2.5}
-  m_LocalScale: {x: 4, y: 3, z: 1}
+  m_LocalPosition: {x: 9, y: 1.5, z: -2}
+  m_LocalScale: {x: 3, y: 3, z: 0.6}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -1655,9 +1655,9 @@ MonoBehaviour:
   aStar: 0
   going: 0
   routine:
-  - {x: 16, y: 0}
-  - {x: 16, y: 8}
-  - {x: 8, y: 16}
+  - {x: 17, y: 0}
+  - {x: 17, y: 8}
+  - {x: 7, y: 16}
   - {x: 8, y: 8}
 --- !u!114 &1589989671
 MonoBehaviour:
@@ -1704,17 +1704,6 @@ MonoBehaviour:
   resetMethods:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1589989669}
-        m_MethodName: Clear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1589989669}
         m_MethodName: ResetPos
         m_Mode: 1

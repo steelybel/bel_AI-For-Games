@@ -28,39 +28,129 @@ public class BelDjikstra : MonoBehaviour
     }
     void Djikstra(BelTile current)
     {
-        if (!nodes.ContainsKey(current)) { nodes.Add(current, new NodeData(current)); }
+        NodeData temp = new NodeData();
+        if (!nodes.ContainsKey(current)) {
+            if (openList.Contains(current)) { temp = new NodeData(current); }
+            nodes.Add(current, temp);
+        }
+        else { temp = nodes[current]; }
         openList.Remove(current);
         //MarkNode(current);
         closedList.Add(current);
         List<NodeData> connected = new List<NodeData>();
-        if (current.up != null && !closedList.Contains(current.up) && !openList.Contains(current.up))
+        if (current.up != null && !closedList.Contains(current.up))
         {
-            NodeData upNode = new NodeData(current.up);
-            upNode.prevNode = nodes[current]; connected.Add(upNode);
-            upNode.gScore = nodes[current].gScore + upNode.weight;
+            if (!nodes.ContainsKey(current.up))
+            {
+                NodeData _node = new NodeData(current.up)
+                {
+                    prevNode = temp
+                };
+                _node.gScore = temp.gScore + _node.weight;
+                nodes.Add(current.up, _node);
+                connected.Add(_node);
+            }
+            else
+            {
+                if (openList.Contains(current.up))
+                {
+                    float tempScore = temp.gScore + current.up.weight;
+                    if (nodes[current.up].gScore < tempScore)
+                    {
+                        nodes[current.up].prevNode = temp;
+                        nodes[current.up].gScore = tempScore;
+                    }
+                    
+                }
+                connected.Add(nodes[current.up]);
+            }
+            
         }
-        if (current.down != null && !closedList.Contains(current.down) && !openList.Contains(current.down))
+        if (current.down != null && !closedList.Contains(current.down))
         {
-            NodeData downNode = new NodeData(current.down);
-            downNode.prevNode = nodes[current]; connected.Add(downNode);
-            downNode.gScore = nodes[current].gScore + downNode.weight;
+            if (!nodes.ContainsKey(current.down))
+            {
+                NodeData _node = new NodeData(current.down)
+                {
+                    prevNode = temp
+                };
+                _node.gScore = temp.gScore + _node.weight;
+                nodes.Add(current.down, _node);
+                connected.Add(_node);
+            }
+            else
+            {
+                if (openList.Contains(current.down))
+                {
+                    float tempScore = temp.gScore + current.down.weight;
+                    if (nodes[current.down].gScore < tempScore)
+                    {
+                        nodes[current.down].prevNode = temp;
+                        nodes[current.down].gScore = tempScore;
+                    }
+                    
+                }
+                connected.Add(nodes[current.down]);
+            }
         }
         if (current.left != null && !closedList.Contains(current.left) && !openList.Contains(current.left))
         {
-            NodeData leftNode = new NodeData(current.left);
-            leftNode.prevNode = nodes[current]; connected.Add(leftNode);
-            leftNode.gScore = nodes[current].gScore + leftNode.weight;
+            if (!nodes.ContainsKey(current.left))
+            {
+                NodeData _node = new NodeData(current.left)
+                {
+                    prevNode = temp
+                };
+                _node.gScore = temp.gScore + _node.weight;
+                nodes.Add(current.left, _node);
+                connected.Add(_node);
+            }
+            else
+            {
+                if (openList.Contains(current.left))
+                {
+                    float tempScore = temp.gScore + current.left.weight;
+                    if (nodes[current.left].gScore < tempScore)
+                    {
+                        nodes[current.left].prevNode = temp;
+                        nodes[current.left].gScore = tempScore;
+                    }
+                    
+                }
+                connected.Add(nodes[current.left]);
+            }
         }
         if (current.right != null && !closedList.Contains(current.right) && !openList.Contains(current.right))
         {
-            NodeData rightNode = new NodeData(current.right);
-            rightNode.prevNode = nodes[current]; connected.Add(rightNode);
-            rightNode.gScore = nodes[current].gScore + rightNode.weight;
+            if (!nodes.ContainsKey(current.right))
+            {
+                NodeData _node = new NodeData(current.right)
+                {
+                    prevNode = temp
+                };
+                _node.gScore = temp.gScore + _node.weight;
+                nodes.Add(current.right, _node);
+                connected.Add(_node);
+            }
+            else
+            {
+                if (openList.Contains(current.right))
+                {
+                    float tempScore = temp.gScore + current.right.weight;
+                    if (nodes[current.right].gScore < tempScore)
+                    {
+                        nodes[current.right].prevNode = temp;
+                        nodes[current.right].gScore = tempScore;
+                    }
+
+                }
+                connected.Add(nodes[current.right]);
+            }
         }
         TileComp tc = new TileComp();
         if (connected.Count > 0) { connected.Sort(0, connected.Count - 1, tc); }
         connected.Reverse();
-        foreach(NodeData data in connected)
+        foreach (NodeData data in connected)
         {
             openList.Add(data.original);
         }
@@ -72,6 +162,7 @@ public class BelDjikstra : MonoBehaviour
     }
     void TraceBack(BelTile a)
     {
+        pathWay = new List<BelTile>();
         NodeData track = nodes[a];
         while (track.prevNode != null)
         {
@@ -111,8 +202,41 @@ public class BelDjikstra : MonoBehaviour
                 Djikstra(openList[0]);
             }
         }
-        if (routine.Count > 0) { routeIter++; }
-        return;
+        if (gotGoal() && routine.Count > 0) { routeIter++; }
+    }
+    public void StartSearch()
+    {
+        closedList.Clear();
+        openList.Clear();
+        nodes.Clear();
+        foreach (BelTile node in map.nodes)
+        {
+            //node.GetComponent<MeshRenderer>().material = blank;
+            //node.prevNode = null;
+        }
+        if (routine.Count > 0)
+        {
+            if (routeIter >= routine.Count)
+            {
+                routeIter = 0;
+            }
+            start = routine[routeIter];
+            goal = routine[(routeIter == routine.Count - 1) ? 0 : routeIter + 1]; //on the final coordinate of the routine, go back to the first coordinate
+        }
+        openList.Add(map.nodes[start.x, start.y]);
+    }
+    public void ContinueSearch()
+    {
+        if (!gotGoal() && openList.Count > 0)
+        {
+            Djikstra(openList[0]);
+            if (gotGoal() && routine.Count > 0) { routeIter++; }
+            return;
+        }
+    }
+    public void FinishSearch()
+    {
+
     }
     public void Initialize()
     {
